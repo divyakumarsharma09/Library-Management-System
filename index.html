@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LibraCore | Library Management System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <div class="brand-mark">LC</div>
+        <div>
+          <h1>LibraCore</h1>
+          <span>Library Management</span>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <button class="nav-item active" data-section="dashboard"><span>⌂</span> Dashboard</button>
+        <button class="nav-item" data-section="books"><span>▤</span> Books</button>
+        <button class="nav-item" data-section="members"><span>♙</span> Members</button>
+        <button class="nav-item" data-section="transactions"><span>↔</span> Transactions</button>
+        <button class="nav-item" data-section="reports"><span>▥</span> Reports</button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="library-card">
+          <strong>Campus Library</strong>
+          <small>Open Mon–Sat · 8:00 AM–8:00 PM</small>
+        </div>
+        <button class="nav-item" id="resetData"><span>↻</span> Reset Demo Data</button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <button class="mobile-menu" id="mobileMenu">☰</button>
+        <div>
+          <p class="eyebrow">ACADEMIC LIBRARY</p>
+          <h2 id="pageTitle">Dashboard</h2>
+        </div>
+        <div class="top-actions">
+          <div class="date-chip" id="currentDate"></div>
+          <button class="primary-btn" id="quickIssue">+ Issue Book</button>
+        </div>
+      </header>
+
+      <section class="content">
+        <!-- Dashboard -->
+        <section class="page-section active" id="dashboard">
+          <div class="welcome">
+            <div>
+              <p class="eyebrow">LIBRARY OVERVIEW</p>
+              <h3>Good morning, Librarian.</h3>
+              <p>Manage books, members and lending activity from one place.</p>
+            </div>
+            <div class="welcome-icon">📚</div>
+          </div>
+
+          <div class="stats-grid">
+            <div class="stat-card">
+              <span class="stat-icon blue">▤</span>
+              <div><small>Total Books</small><strong id="statBooks">0</strong><span class="muted">Books in catalogue</span></div>
+            </div>
+            <div class="stat-card">
+              <span class="stat-icon green">✓</span>
+              <div><small>Available</small><strong id="statAvailable">0</strong><span class="muted">Ready to issue</span></div>
+            </div>
+            <div class="stat-card">
+              <span class="stat-icon orange">↔</span>
+              <div><small>Issued</small><strong id="statIssued">0</strong><span class="muted">Currently borrowed</span></div>
+            </div>
+            <div class="stat-card">
+              <span class="stat-icon red">!</span>
+              <div><small>Overdue</small><strong id="statOverdue">0</strong><span class="muted">Need attention</span></div>
+            </div>
+          </div>
+
+          <div class="dashboard-grid">
+            <div class="panel">
+              <div class="panel-head"><div><h3>Recent Transactions</h3><p>Latest issue and return activity</p></div><button class="text-btn" data-go="transactions">View all →</button></div>
+              <div class="table-wrap"><table><thead><tr><th>Book</th><th>Member</th><th>Type</th><th>Date</th><th>Status</th></tr></thead><tbody id="recentTransactions"></tbody></table></div>
+            </div>
+            <div class="panel">
+              <div class="panel-head"><div><h3>Popular Categories</h3><p>Books by category</p></div></div>
+              <div id="categoryChart" class="bar-chart"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Books -->
+        <section class="page-section" id="books">
+          <div class="section-head">
+            <div><p class="eyebrow">CATALOGUE</p><h3>Book Management</h3><p>Add, search and manage your library collection.</p></div>
+            <button class="primary-btn" id="addBookBtn">+ Add Book</button>
+          </div>
+          <div class="toolbar">
+            <div class="search-box"><span>⌕</span><input id="bookSearch" placeholder="Search by title, author or ISBN..."></div>
+            <select id="categoryFilter"><option value="">All Categories</option></select>
+          </div>
+          <div class="panel">
+            <div class="table-wrap"><table><thead><tr><th>Book</th><th>Author</th><th>ISBN</th><th>Category</th><th>Copies</th><th>Available</th><th>Action</th></tr></thead><tbody id="booksTable"></tbody></table></div>
+          </div>
+        </section>
+
+        <!-- Members -->
+        <section class="page-section" id="members">
+          <div class="section-head">
+            <div><p class="eyebrow">PEOPLE</p><h3>Member Management</h3><p>Maintain student and faculty library memberships.</p></div>
+            <button class="primary-btn" id="addMemberBtn">+ Add Member</button>
+          </div>
+          <div class="toolbar">
+            <div class="search-box"><span>⌕</span><input id="memberSearch" placeholder="Search by name, ID or email..."></div>
+          </div>
+          <div class="panel">
+            <div class="table-wrap"><table><thead><tr><th>Member</th><th>Member ID</th><th>Type</th><th>Email</th><th>Books Issued</th><th>Status</th><th>Action</th></tr></thead><tbody id="membersTable"></tbody></table></div>
+          </div>
+        </section>
+
+        <!-- Transactions -->
+        <section class="page-section" id="transactions">
+          <div class="section-head">
+            <div><p class="eyebrow">LENDING</p><h3>Issue & Return</h3><p>Track every book transaction and due date.</p></div>
+            <button class="primary-btn" id="issueBookBtn">+ Issue Book</button>
+          </div>
+          <div class="filter-tabs">
+            <button class="filter-tab active" data-status="all">All</button>
+            <button class="filter-tab" data-status="issued">Issued</button>
+            <button class="filter-tab" data-status="returned">Returned</button>
+            <button class="filter-tab" data-status="overdue">Overdue</button>
+          </div>
+          <div class="panel">
+            <div class="table-wrap"><table><thead><tr><th>Book</th><th>Member</th><th>Issue Date</th><th>Due Date</th><th>Return Date</th><th>Status</th><th>Action</th></tr></thead><tbody id="transactionsTable"></tbody></table></div>
+          </div>
+        </section>
+
+        <!-- Reports -->
+        <section class="page-section" id="reports">
+          <div class="section-head">
+            <div><p class="eyebrow">ANALYTICS</p><h3>Library Reports</h3><p>Generate a quick summary of current library operations.</p></div>
+            <button class="primary-btn" id="printReport">🖨 Print Report</button>
+          </div>
+          <div class="report-grid">
+            <div class="report-card"><span>Collection Size</span><strong id="reportBooks">0</strong><small>Total physical copies</small></div>
+            <div class="report-card"><span>Active Members</span><strong id="reportMembers">0</strong><small>Registered members</small></div>
+            <div class="report-card"><span>Issued Books</span><strong id="reportIssued">0</strong><small>Currently outside library</small></div>
+            <div class="report-card"><span>Overdue Books</span><strong id="reportOverdue">0</strong><small>Require follow-up</small></div>
+          </div>
+          <div class="panel report-panel">
+            <div class="panel-head"><div><h3>Category Distribution</h3><p>Current catalogue breakdown</p></div></div>
+            <div id="reportCategoryChart" class="bar-chart large"></div>
+          </div>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal-backdrop" id="modalBackdrop">
+    <div class="modal" id="modal"></div>
+  </div>
+  <div class="toast" id="toast"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
